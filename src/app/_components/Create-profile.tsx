@@ -1,6 +1,6 @@
 "use client";
 
-import { Coffee, Divide } from "lucide-react";
+import { CameraIcon, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,15 +8,18 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
+  photo: z.string().min(2, {
+    message: "Please add a photo.",
+  }),
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
@@ -33,6 +36,7 @@ export default function CreateProfile() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      photo: "",
       username: "",
       about: "",
       socialMedia: "",
@@ -47,7 +51,7 @@ export default function CreateProfile() {
   }
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-between px-[80px] py-2.5 bg-amber-200 items-center w-screen">
+      <div className="flex justify-between px-[80px] py-2.5 bg-amber-200 items-center w-screen mb-8">
         <div className="flex gap-2">
           <Coffee /> <p className="font-semibold">Buy Me Coffee</p>
         </div>
@@ -67,10 +71,13 @@ export default function CreateProfile() {
               <FormItem>
                 <h1 className="font-bold">Complete your profile page</h1>
                 <p>Add photo</p>
+                
                 <label
+                
                   htmlFor="file-input"
-                  className="flex flex-col cursor-pointer rounded-full border border-dashed border-amber-200 w-[150px] h-[150px]"
-                ></label>
+                  className="flex  justify-center items-center cursor-pointer rounded-full border border-dashed border-amber-200 w-[150px] h-[150px]"
+                > <CameraIcon /></label>
+                <input type="file" id="file-input" className="hidden"/>
                 <FormLabel>name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter your name here" {...field} />
@@ -88,11 +95,11 @@ export default function CreateProfile() {
                 <FormLabel>About</FormLabel>
 
                 <FormControl>
-                  <Input
-                    className="w-[300px] h-[150px]"
+                  <Textarea
+                    className="w-[510px] h-[131px]"
                     placeholder="Write about yourself here"
                     {...field}
-                  />
+                  ></Textarea>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,8 +119,10 @@ export default function CreateProfile() {
               </FormItem>
             )}
           />
-
-          <Button type="submit">Continie</Button>
+          <div className="flex justify-end w-full">
+          <Button className="w-[246px] h-10 cursor-pointer" type="submit">Continue</Button>
+          </div>
+         
         </form>
       </Form>
     </div>
