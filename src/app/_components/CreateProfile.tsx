@@ -108,22 +108,26 @@ export default function CreateProfile() {
                   ) : (
                     <label
                       htmlFor="file-input"
-                      className="flex  justify-center items-center cursor-pointer rounded-full border border-dashed border-amber-200 w-[150px] h-[150px]"
+                      className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${
+                      form.formState.errors.photo ? "border-red-500" : "border-amber-200"
+                      } w-[150px] h-[150px]`}
                     >
                       <CameraIcon />
                       <Input
-                        type="file"
-                        {...rest}
-                        id="file-input"
-                        onChange={handleChange}
-                        className="hidden"
+                      type="file"
+                      {...rest}
+                      id="file-input"
+                      onChange={handleChange}
+                      className="hidden"
                       />
                     </label>
                   )}
                 </FormControl>
 
+
                 <FormMessage />
               </FormItem>
+              
             )}
           />
           <FormField
