@@ -1,15 +1,14 @@
-import { getUsers } from "../../../../back_end/users";
-
+import { getUsers } from "../../../../back_end/controllers/users";
 
 export async function GET() {
-    const users = await getUsers();
+  const users = await getUsers();
 
-    return new Response(JSON.stringify({data: users}));
+  return new Response(JSON.stringify({ data: users }));
 }
 
-export async function POST (req: Request, res: Response) {
-    const body = await req.json();
-    console.log({body});
+export async function POST(req: Request, res: Response) {
+  const body = await req.json();
+  console.log({ body });
 
-    return await checkUser({email: body.email, password: body.password});
+  //   return await checkUser({ email: body.email, password: body.password });
 }

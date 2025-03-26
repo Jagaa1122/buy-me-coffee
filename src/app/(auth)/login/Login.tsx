@@ -5,7 +5,7 @@ import Logo from "../../_components/Logo";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-export default function Signup() {
+export default function Login() {
   return (
     <div className="flex w-full h-full">
       <div className="zuun-tal bg-amber-400 w-[50%] h-screen relative">
@@ -27,22 +27,29 @@ export default function Signup() {
       <div className="baruun-tal w-[50%] flex flex-col justify-center items-center relative">
         <Button
           className="absolute top-5 right-5 text-black bg-[#f4f4f5] hover:text-white"
-          onClick={() => (window.location.href = "/auth/login")}
+          onClick={() => (window.location.href = "/signup")}
         >
-          Login
+          Signup
         </Button>
         <div>
-          <h1 className="text-[#202124] font-bold text-[26px]">
-            Create your account
-          </h1>
+          <h1 className="text-[#202124] font-bold text-[26px]">Welcome back</h1>
           <p className="text-[#8E8E8E] mb-5">Choose a username for your page</p>
-          <Label htmlFor="username" className="mb-3">
-            Username
+          <Label htmlFor="email" className="mb-3">
+            Email
+          </Label>
+          <Input
+            id="username"
+            className="w-[300px] mb-3"
+            placeholder="Enter email here"
+            type="text"
+          />
+          <Label htmlFor="password" className="mb-3">
+            Password
           </Label>
           <Input
             id="username"
             className="w-[300px]"
-            placeholder="Enter user name here"
+            placeholder="Enter password here"
             type="text"
           />
           <Button className="bg-slate-400 text-white mt-5 w-full">
