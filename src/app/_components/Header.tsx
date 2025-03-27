@@ -41,7 +41,8 @@ export default function Header({ userName, avatarUrl, onLogout }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={avatarUrl} alt={userName} />
+            
+                <AvatarImage src="/avatar.jpg" alt={userName} />
                 <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>
               <span>{userName}</span>

@@ -9,14 +9,16 @@ import {
 } from "@/components/ui/select";
 
 import { Copy } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const UserProfile = () => {
   return (
     <div className="w-[50%] flex flex-col m-auto border-border border-[1px] rounded-lg p-5">
+      <div >
       <div className="w-full flex justify-between items-center ">
         <div className="flex gap-3 items-center">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src="/avatar.jpg" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-center items-start gap-1 ">
@@ -50,6 +52,102 @@ export const UserProfile = () => {
         </div>
         <div className="w-full ">
           <h1 className="text-[36px] font-[700] leading-[40px] ">$450</h1>
+        </div>
+      </div>
+      </div>
+
+
+      <div className="w-full flex flex-col gap-3 items-start ">
+        <div className="flex w-full justify-between items-start ">
+          <h4 className="text-[16px] font-[600] leading-[24px] ">
+            Recent transactions
+          </h4>
+          <Select>
+            <SelectTrigger className="h-[36px] py-2 px-4 border-dashed ">
+              <SelectValue placeholder="Amount" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="amount">Amount</SelectItem>
+              <SelectItem value="date">Date</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full flex flex-col gap-4 p-6 items-start rounded-lg border-[1px] ">
+          {[
+            {
+              name: "Guest",
+              profile: "instagram.com/welesley",
+              amount: "$1",
+              time: "10 hours ago",
+              message:
+                "Thank you for being so awesome everyday! You always manage to brighten up my day when I’m feeling down. Although $1 isn’t that much money it’s all I can contribute at the moment",
+            },
+            {
+              name: "John Doe",
+              profile: "buymeacoffee.com/bdsadas",
+              amount: "$10",
+              time: "10 hours ago",
+              message: "Thank you for being so awesome everyday!",
+            },
+            {
+              name: "Radicals",
+              profile: "buymeacoffee.com/gkfgrew",
+              amount: "$2",
+              time: "10 hours ago",
+              message: "Thank you for your support!",
+            },
+            {
+              name: "Guest",
+              profile: "facebook.com/penelopeb",
+              amount: "$5",
+              time: "10 hours ago",
+              message: "Keep up the great work!",
+            },
+            {
+              name: "Fan1",
+              profile: "buymeacoffee.com/supporterone",
+              amount: "$10",
+              time: "10 hours ago",
+              message:
+                "When I become successful I will be sure to buy you more coffee!",
+            },
+          ].map((transaction, index) => (
+            <div
+              key={index}
+              className="p-3 flex flex-col gap-[10px] rounded-lg border-b-[1px] last:border-b-0"
+            >
+              <div className="w-full flex justify-between items-center ">
+                <div className="flex gap-3 items-center ">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>{transaction.name[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col justify-center items-start gap-1 ">
+                    <h4 className="text-[14px] font-[500] leading-[20px] ">
+                      {transaction.name}
+                    </h4>
+                    <h5 className="text-[12px] font-[400] leading-[16px] ">
+                      {transaction.profile}
+                    </h5>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 items-end w-[258.5px] ">
+                  <h4 className="text-[16px] font-[500] leading-[20px] ">
+                    +
+                    <span className="text-[16px] font-[700] leading-[20px] ">
+                      {transaction.amount}
+                    </span>
+                  </h4>
+                  <h4 className="text-[12px] font-[400] leading-[16px] text-muted-foreground ">
+                    {transaction.time}
+                  </h4>
+                </div>
+              </div>
+              <h4 className="text-[14px] font-[400] leading-[20px] w-full ">
+                {transaction.message}
+              </h4>
+            </div>
+          ))}
         </div>
       </div>
     </div>
