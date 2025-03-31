@@ -1,6 +1,6 @@
 "use client";
 
-import { CameraIcon, CircleX, Coffee, X } from "lucide-react";
+import { CameraIcon, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,7 +17,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Image from "next/image";
-import { preconnect } from "react-dom";
 import { uploadImage } from "@/lib/upload";
 
 const formSchema = z.object({
@@ -56,6 +54,7 @@ export default function CreateProfile() {
   }
 
   const imageUrl = uploadImage(profileImageFile);
+  console.log(imageUrl);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -90,7 +89,8 @@ export default function CreateProfile() {
           <FormField
             control={form.control}
             name="photo"
-            render={({ field: { onChange, value, ...rest } }) => (
+            // render={({ field: { onChange, value, ...rest } }) => (
+            render={({ field: { ...rest } }) => (
               <FormItem>
                 <h1 className="font-bold">Complete your profile page</h1>
                 <Label>Add photo</Label>
@@ -109,25 +109,25 @@ export default function CreateProfile() {
                     <label
                       htmlFor="file-input"
                       className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${
-                      form.formState.errors.photo ? "border-red-500" : "border-amber-200"
+                        form.formState.errors.photo
+                          ? "border-red-500"
+                          : "border-amber-200"
                       } w-[150px] h-[150px]`}
                     >
                       <CameraIcon />
                       <Input
-                      type="file"
-                      {...rest}
-                      id="file-input"
-                      onChange={handleChange}
-                      className="hidden"
+                        type="file"
+                        {...rest}
+                        id="file-input"
+                        onChange={handleChange}
+                        className="hidden"
                       />
                     </label>
                   )}
                 </FormControl>
 
-
                 <FormMessage />
               </FormItem>
-              
             )}
           />
           <FormField

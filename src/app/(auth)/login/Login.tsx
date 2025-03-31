@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import Logo from "../../_components/Logo";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 export default function Login() {
   return (
@@ -11,7 +12,7 @@ export default function Login() {
       <div className="zuun-tal bg-amber-400 w-[50%] h-screen relative">
         <Logo />
         <div className="flex h-full flex-col justify-center items-center ">
-          <img
+          <Image
             src="https://res.cloudinary.com/dslllxkue/image/upload/v1742867286/illustration_rvidcx.png"
             alt="picture"
           />
@@ -19,8 +20,8 @@ export default function Login() {
             Fund your creative work
           </h4>
           <p className="text-center">
-            Accept support.Start a membership. Setup a shop. It's easier <br />{" "}
-            than you think.
+            Accept support.Start a membership. Setup a shop. It`&apos;`s easier{" "}
+            <br /> than you think.
           </p>
         </div>
       </div>

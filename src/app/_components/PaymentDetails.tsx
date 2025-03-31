@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { CameraIcon, Coffee } from "lucide-react";
+import { Coffee } from "lucide-react";
 import { z } from "zod";
 import {
   Select,
@@ -19,7 +19,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";

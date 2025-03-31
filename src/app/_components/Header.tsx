@@ -18,7 +18,7 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
-export default function Header({ userName, avatarUrl, onLogout }: HeaderProps) {
+export default function Header({ userName, onLogout }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
@@ -41,7 +41,6 @@ export default function Header({ userName, avatarUrl, onLogout }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar className="h-8 w-8">
-            
                 <AvatarImage src="/avatar.jpg" alt={userName} />
                 <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>

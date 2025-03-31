@@ -8,6 +8,7 @@ import { UserProfile } from "./_components/UserProfile";
 import Header from "./_components/Header";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Amountfilter } from "./_components/AmountFilter";
 
 export default function Home() {
   const router = useRouter();
@@ -40,7 +41,8 @@ export default function Home() {
       />
       <div className="flex mt-23 pl-[20px]">
         <SideBar />
-        <UserProfile />
+        {/* <UserProfile /> */}
+        <Amountfilter />
       </div>
     </div>
   );
