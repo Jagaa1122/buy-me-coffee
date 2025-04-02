@@ -19,8 +19,8 @@ export const Amountfilter = () => {
     setSelectedAmount(value); // Update the selected value state
   };
   return (
-    <div className="w-[50%] flex flex-col m-auto rounded-lg p-5">
-      <div className="w-[100%] flex flex-col m-auto border-border border-[1px] rounded-lg p-5">
+    <div className="w-[50%] flex flex-col m-auto rounded-lg px-5">
+      <div className="w-[100%] flex flex-col  border-border border-[1px] rounded-lg p-5">
         <div>
           <div className="w-full flex justify-between items-center ">
             <div className="flex gap-3 items-center">
