@@ -1,63 +1,143 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import Logo from "../../_components/Logo";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
-export default function Login() {
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const formSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
+});
+
+const LoginPage = () => {
+  const router = useRouter();
+  const [userName, setUserName] = useState<string | null>(null);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    login(values.email, values.password);
+    console.log(values);
+  }
+
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+      const jsonData = await res.json();
+
+      if (jsonData.error) {
+        alert(jsonData.message);
+        return;
+      }
+
+      router.push("/profile");
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    const getUserName = localStorage.getItem("userName");
+    setUserName(getUserName);
+  }, []);
+
   return (
-    <div className="flex w-full h-full">
-      <div className="zuun-tal bg-amber-400 w-[50%] h-screen relative">
-        <Logo />
-        <div className="flex h-full flex-col justify-center items-center ">
-          <Image
-            src="https://res.cloudinary.com/dslllxkue/image/upload/v1742867286/illustration_rvidcx.png"
-            alt="picture"
-          />
-          <h4 className="font-semibold mt-4 text-[20px]">
-            Fund your creative work
-          </h4>
-          <p className="text-center">
-            Accept support.Start a membership. Setup a shop. It`&apos;`s easier{" "}
-            <br /> than you think.
-          </p>
-        </div>
-      </div>
-      <div className="baruun-tal w-[50%] flex flex-col justify-center items-center relative">
+    <div className="w-full h-screen flex items-center justify-center ">
+      <Link href={"/signup"}>
         <Button
-          className="absolute top-5 right-5 text-black bg-[#f4f4f5] hover:text-white"
-          onClick={() => (window.location.href = "/signup")}
+          variant={"secondary"}
+          className="h-10 absolute top-[32px] right-[80px] cursor-pointer "
         >
-          Signup
+          Sign up
         </Button>
-        <div>
-          <h1 className="text-[#202124] font-bold text-[26px]">Welcome back</h1>
-          <p className="text-[#8E8E8E] mb-5">Choose a username for your page</p>
-          <Label htmlFor="email" className="mb-3">
-            Email
-          </Label>
-          <Input
-            id="username"
-            className="w-[300px] mb-3"
-            placeholder="Enter email here"
-            type="text"
+      </Link>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-[407px] flex flex-col items-start rounded-lg  "
+        >
+          <div className="flex flex-col items-start p-6  ">
+            <h3 className="text-[24px] font-[600] leading-[32px] w-full ">
+              Welcome, {userName}
+            </h3>
+          </div>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-[10px] items-start px-[24px] pb-[24px] w-full  ">
+                <div className="flex flex-col items-start gap-2 w-full  ">
+                  <FormLabel className="text-[14px] font-[500] leading-[14px]  ">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter email here" {...field} />
+                  </FormControl>
+                </div>
+
+                <FormDescription hidden></FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <Label htmlFor="password" className="mb-3">
-            Password
-          </Label>
-          <Input
-            id="username"
-            className="w-[300px]"
-            placeholder="Enter password here"
-            type="text"
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-[10px] items-start px-[24px] pb-[24px] w-full  ">
+                <div className="flex flex-col items-start gap-2 w-full  ">
+                  <FormLabel className="text-[14px] font-[500] leading-[14px]  ">
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter password here" {...field} />
+                  </FormControl>
+                </div>
+
+                <FormDescription hidden></FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <Button className="bg-slate-400 text-white mt-5 w-full">
-            Continue
-          </Button>
-        </div>
-      </div>
+          <div className="flex items-start gap-[10px] px-[24px] pb-[24px] w-full ">
+            <Button
+              type="submit"
+              variant="default"
+              className="w-full cursor-pointer h-10"
+            >
+              Continue
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
-}
+};
+
+export default LoginPage;

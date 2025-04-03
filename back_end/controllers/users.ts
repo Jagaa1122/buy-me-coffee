@@ -1,5 +1,5 @@
 import { UserType } from "@/lib/utils";
-import { error } from "console";
+
 export const getUsers = () => {
   return [
     {

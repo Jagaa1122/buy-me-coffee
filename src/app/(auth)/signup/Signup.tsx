@@ -1,30 +1,14 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import Logo from "../../_components/Logo";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 export default function Signup() {
   return (
-    <div className="flex w-full h-full">
-      <div className="zuun-tal bg-amber-400 w-[50%] h-screen relative">
-        <Logo />
-        <div className="flex h-full flex-col justify-center items-center ">
-          <img
-            src="https://res.cloudinary.com/dslllxkue/image/upload/v1742867286/illustration_rvidcx.png"
-            alt="picture"
-          />
-          <h4 className="font-semibold mt-4 text-[20px]">
-            Fund your creative work
-          </h4>
-          <p className="text-center">
-            Accept support.Start a membership. Setup a shop. It's easier <br />{" "}
-            than you think.
-          </p>
-        </div>
-      </div>
-      <div className="baruun-tal w-[50%] flex flex-col justify-center items-center relative">
+    <div className=" w-[50%] h-full  flex flex-col justify-center items-center relative">
+      <div className="baruun-tal  flex flex-col justify-center items-center ">
         <Button
           className="absolute top-5 right-5 text-black bg-[#f4f4f5] hover:text-white"
           onClick={() => (window.location.href = "/login")}
