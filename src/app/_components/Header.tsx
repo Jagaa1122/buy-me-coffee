@@ -11,23 +11,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   userName: string;
   avatarUrl?: string;
-  onLogout: () => void;
+  onLogout?: () => void;
 }
 
-export default function Header({ userName, onLogout }: HeaderProps) {
+export default function Header({ userName, avatarUrl }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleLogout = () => {
-    onLogout();
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    
+    // Close dropdown
     setIsOpen(false);
+    
+    // Redirect to login page
+    router.push("/login");
   };
 
   // Get the first letter of the username for the avatar fallback
-  const userInitial = userName.charAt(0);
+  const userInitial = userName?.charAt(0) || "U";
 
   return (
     <header className="w-full bg-amber-200 ">
@@ -41,7 +49,7 @@ export default function Header({ userName, onLogout }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="/avatar.jpg" alt={userName} />
+                <AvatarImage src={avatarUrl || "/avatar.jpg"} alt={userName} />
                 <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>
               <span>{userName}</span>

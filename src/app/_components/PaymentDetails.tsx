@@ -60,7 +60,7 @@ export default function PaymentDetail() {
         </div>
         <Button
           className=" text-black bg-[#f4f4f5] hover:text-white"
-          onClick={() => (window.location.href = "/signup")}
+          onClick={() => (window.location.href = "/register")}
         >
           Log out
         </Button>

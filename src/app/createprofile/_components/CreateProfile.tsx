@@ -76,8 +76,15 @@ export default function CreateProfile() {
           <Coffee /> <p className="font-semibold">Buy Me Coffee</p>
         </div>
         <Button
-          className=" text-black bg-[#f4f4f5] hover:text-white"
-          onClick={() => (window.location.href = "/signup")}
+          className="text-black bg-[#f4f4f5] hover:text-white"
+          onClick={() => {
+            // Clear user data
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userId");
+
+            // Redirect to login page
+            window.location.href = "/login";
+          }}
         >
           Log out
         </Button>
@@ -107,11 +114,10 @@ export default function CreateProfile() {
                   ) : (
                     <label
                       htmlFor="file-input"
-                      className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${
-                        form.formState.errors.photo
+                      className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${form.formState.errors.photo
                           ? "border-red-500"
                           : "border-amber-200"
-                      } w-[150px] h-[150px]`}
+                        } w-[150px] h-[150px]`}
                     >
                       <CameraIcon />
                       <Input

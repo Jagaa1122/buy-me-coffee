@@ -29,6 +29,9 @@ const formSchema = z.object({
 const LoginPage = () => {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,42 +42,60 @@ const LoginPage = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     login(values.email, values.password);
-    console.log(values);
   }
 
   const login = async (email: string, password: string) => {
     try {
-      const res = await fetch("/api/users", {
+      setIsLoading(true);
+      setError("");
+      
+      const res = await fetch("/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email, password: password }),
+        body: JSON.stringify({ email, password }),
       });
-      const jsonData = await res.json();
+      
+      const data = await res.json();
 
-      if (jsonData.error) {
-        alert(jsonData.message);
+      if (!res.ok) {
+        setError(data.error || "Login failed. Please try again.");
         return;
       }
 
-      router.push("/profile");
-    } catch (error) {}
+      // Store user information in localStorage
+      localStorage.setItem("userName", data.user.username);
+      localStorage.setItem("userId", data.user.id.toString());
+      
+      // Redirect to profile page
+      router.push("/");
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     const getUserName = localStorage.getItem("userName");
     setUserName(getUserName);
-  }, []);
+    
+    // If user is already logged in, redirect to home page
+    if (getUserName) {
+      router.push("/");
+    }
+  }, [router]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center ">
-      <Link href={"/signup"}>
+      <Link href={"/register"}>
         <Button
           variant={"secondary"}
           className="h-10 absolute top-[32px] right-[80px] cursor-pointer "
         >
-          Sign up
+          Register
         </Button>
       </Link>
       <Form {...form}>
@@ -84,8 +105,11 @@ const LoginPage = () => {
         >
           <div className="flex flex-col items-start p-6  ">
             <h3 className="text-[24px] font-[600] leading-[32px] w-full ">
-              Welcome, {userName}
+             Login
             </h3>
+            {error && (
+              <div className="text-red-500 mt-2 text-sm">{error}</div>
+            )}
           </div>
           <FormField
             control={form.control}
@@ -116,7 +140,11 @@ const LoginPage = () => {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter password here" {...field} />
+                    <Input 
+                      type="password" 
+                      placeholder="Enter password here" 
+                      {...field} 
+                    />
                   </FormControl>
                 </div>
 
@@ -130,8 +158,9 @@ const LoginPage = () => {
               type="submit"
               variant="default"
               className="w-full cursor-pointer h-10"
+              disabled={isLoading}
             >
-              Continue
+              {isLoading ? "Logging in..." : "Continue"}
             </Button>
           </div>
         </form>

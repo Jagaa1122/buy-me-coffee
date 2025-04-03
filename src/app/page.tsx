@@ -1,47 +1,50 @@
 "use client";
 
-import CreateProfile from "./_components/CreateProfile";
-import PaymentDetail from "./_components/PaymentDetails";
-import Login from "./(auth)/login/Login";
-import { SideBar } from "./_components/SideBar";
-import { UserProfile } from "./_components/UserProfile";
-import Header from "./_components/Header";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { SideBar } from "./_components/SideBar";
 import { Amountfilter } from "./_components/AmountFilter";
+import Header from "./_components/Header";
 
 export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState({
-    name: "Jake",
+    name: "",
     avatarUrl: "/placeholder.svg?height=32&width=32",
   });
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    // Here you would implement your actual logout logic
-    // For example:
-    // await supabase.auth.signOut()
-    console.log("User logged out");
+  useEffect(() => {
+    // Check if user is logged in
+    const userName = localStorage.getItem("userName");
+    
+    if (!userName) {
+      // Redirect to login if not logged in
+      router.push("/login");
+      return;
+    }
+    
+    // Set user data if logged in
+    setUser({
+      name: userName,
+      avatarUrl: "/placeholder.svg?height=32&width=32",
+    });
+    
+    setLoading(false);
+  }, [router]);
 
-    // Redirect to login page or clear user state
-    // router.push('/login')
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    // For demo purposes, we'll just log a message
-    alert("Logged out successfully");
-  };
   return (
-    <div className="gap-7 ">
-      {/* <Login /> */}
-      {/* <CreateProfile /> */}
-      {/* <PaymentDetail /> */}
+    <div className="gap-7">
       <Header
         userName={user.name}
         avatarUrl={user.avatarUrl}
-        onLogout={handleLogout}
       />
       <div className="flex mt-23 pl-[20px]">
         <SideBar />
-        {/* <UserProfile /> */}
         <Amountfilter />
       </div>
     </div>
