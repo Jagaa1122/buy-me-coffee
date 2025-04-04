@@ -36,7 +36,7 @@ export default function SecondStep({ username }: SecondStepProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  
+
   // Credentials form
   const credentialsForm = useForm<CredentialsFormValues>({
     resolver: zodResolver(credentialsFormSchema),
@@ -51,13 +51,13 @@ export default function SecondStep({ username }: SecondStepProps) {
     try {
       setIsSubmitting(true);
       setError("");
-      
+
       console.log("Submitting registration data:", {
         username,
         email: data.email,
-        password: data.password
+        password: data.password,
       });
-      
+
       // Register the user with the updated API endpoint path
       const response = await fetch("/api/users/register", {
         method: "POST",
@@ -70,23 +70,22 @@ export default function SecondStep({ username }: SecondStepProps) {
           password: data.password,
         }),
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
         console.error("Registration error response:", result);
         throw new Error(result.error || "Failed to create account");
       }
-      
+
       // Store user info
       localStorage.setItem("userName", username);
-      
+
       // Redirect to profile creation page
       router.push("/createprofile");
-
-    } catch (err: any) {
-      console.error("Registration error:", err);
-      setError(err.message || "Failed to create account. Please try again.");
+    } catch (error: unknown) {
+      console.error("Registration error:", error);
+      setError(error.message || "Failed to create account. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

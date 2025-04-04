@@ -22,7 +22,8 @@ export default function AuthLeftBar({
             Fund your creative work
           </h4>
           <p className="text-center">
-            Accept support. Start a membership. Setup a shop. It's easier <br /> than you think.
+            Accept support. Start a membership. Setup a shop. It&apos;s easier{" "}
+            <br /> than you think.
           </p>
         </div>
       </div>

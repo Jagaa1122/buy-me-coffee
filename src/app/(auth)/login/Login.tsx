@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -28,10 +28,10 @@ const formSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
-  const [userName, setUserName] = useState<string | null>(null);
+  // const [userName, setUserName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +48,7 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       setError("");
-      
+
       const res = await fetch("/api/users/login", {
         method: "POST",
         headers: {
@@ -56,7 +56,7 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -65,9 +65,9 @@ const LoginPage = () => {
       }
 
       // Store user information in localStorage
-      localStorage.setItem("userName", data.user.username);
+      // localStorage.setItem("userName", data.user.username);
       localStorage.setItem("userId", data.user.id.toString());
-      
+
       // Redirect to profile page
       router.push("/");
     } catch (error) {
@@ -78,15 +78,15 @@ const LoginPage = () => {
     }
   };
 
-  useEffect(() => {
-    const getUserName = localStorage.getItem("userName");
-    setUserName(getUserName);
-    
-    // If user is already logged in, redirect to home page
-    if (getUserName) {
-      router.push("/");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   // const getUserName = localStorage.getItem("userName");
+  //   // setUserName(getUserName);
+
+  //   // If user is already logged in, redirect to home page
+  //   if (getUserName) {
+  //     router.push("/");
+  //   }
+  // }, [router]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center ">
@@ -105,11 +105,9 @@ const LoginPage = () => {
         >
           <div className="flex flex-col items-start p-6  ">
             <h3 className="text-[24px] font-[600] leading-[32px] w-full ">
-             Login
+              Login
             </h3>
-            {error && (
-              <div className="text-red-500 mt-2 text-sm">{error}</div>
-            )}
+            {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
           </div>
           <FormField
             control={form.control}
@@ -140,10 +138,10 @@ const LoginPage = () => {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input 
-                      type="password" 
-                      placeholder="Enter password here" 
-                      {...field} 
+                    <Input
+                      type="password"
+                      placeholder="Enter password here"
+                      {...field}
                     />
                   </FormControl>
                 </div>

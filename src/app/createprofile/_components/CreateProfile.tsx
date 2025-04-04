@@ -28,7 +28,7 @@ const formSchema = z.object({
   about: z.string().min(2, {
     message: " Please enter info about yourself.",
   }),
-  socialMedia: z.string().min(2, {
+  socialMedia: z.string().url().min(2, {
     message: "Please enter a social link",
   }),
 });
@@ -47,13 +47,41 @@ export default function CreateProfile() {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // formData.append("user_id", localStorage.getItem("userId") || ""); // Хэрэглэгчийн ID-ийг localStorage-ээс авах
+    // formData.append("username", values.username);
+    // formData.append("about", values.about);
+    // formData.append("socialMedia", values.socialMedia);
+    const imageUrl = await uploadImage(profileImageFile);
+    // if (!imageUrl) {
+    //   return
+    // }
 
-  const imageUrl = uploadImage(profileImageFile);
-  console.log(imageUrl);
+    try {
+      const response = await fetch("/api/users/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.username,
+          about: values.about,
+          // user_id: localStorage.getItem("userId") || "",
+          avatarImage: imageUrl,
+          socialMediaURL: values.socialMedia,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Профайл амжилттай үүслээ:", data);
+        // Амжилттай бол хэрэглэгчийг шилжүүлэх эсвэл UI-ийг шинэчлэх
+      } else {
+        console.error("Алдаа үүслээ:", data.message);
+      }
+    } catch (error) {
+      console.error("Алдаа үүслээ:", error);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -63,7 +91,6 @@ export default function CreateProfile() {
     }
 
     setProfileImageFile(file);
-    console.log("zurag irjahimu", file);
 
     const temImageUrl = URL.createObjectURL(file);
     setPreviewUrl(temImageUrl);
@@ -114,10 +141,11 @@ export default function CreateProfile() {
                   ) : (
                     <label
                       htmlFor="file-input"
-                      className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${form.formState.errors.photo
+                      className={`flex justify-center items-center cursor-pointer rounded-full border border-dashed ${
+                        form.formState.errors.photo
                           ? "border-red-500"
                           : "border-amber-200"
-                        } w-[150px] h-[150px]`}
+                      } w-[150px] h-[150px]`}
                     >
                       <CameraIcon />
                       <Input

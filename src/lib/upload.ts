@@ -3,7 +3,7 @@ const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
 export const uploadImage = async (file: File | null) => {
   if (!file) {
-    return null;
+    return { message: "No file provided" };
   }
 
   const formData = new FormData();
