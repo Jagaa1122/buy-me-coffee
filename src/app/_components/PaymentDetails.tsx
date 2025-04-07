@@ -3,13 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Coffee } from "lucide-react";
 import { z } from "zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,20 +12,23 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 const formSchema = z.object({
-  country: z.string().nonempty("Please select country"),
+  country: z.string({
+    required_error: "Please select a country",
+  }),
   firstName: z.string().nonempty("Please enter your first name"),
   lastName: z.string().nonempty("Please enter your last name"),
   about: z.string().nonempty("Please enter your card number"),
-  expires: z.string().nonempty("Please enter mounth"),
+  expires: z.string().nonempty("Please enter month"),
   year: z.string().nonempty("Please enter year"),
   cvc: z.string().nonempty("Please enter your cvc"),
 });
-
 export default function PaymentDetail() {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,11 +46,11 @@ export default function PaymentDetail() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    router.push("/");
+    router.push("/explore");
   }
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-between px-[80px] py-2.5 bg-amber-200 items-center w-screen mb-8">
+    <div className="flex flex-col justify-center items-center ">
+      <div className="flex justify-between px-[80px] py-2.5 bg-amber-200 items-center w-screen mb-8 ]">
         <div className="flex gap-2">
           <Coffee /> <p className="font-semibold">Buy Me Coffee</p>
         </div>
@@ -83,40 +79,20 @@ export default function PaymentDetail() {
               control={form.control}
               name="country"
               render={({ field }) => (
-                <FormItem className="flex w-full flex-col gap-2 items-start ">
-                  <Label>Select country</Label>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger
-                        className={`w-full ${
-                          form.formState.errors.country ? "border-red-500" : ""
-                        }`}
-                      >
-                        <SelectValue placeholder="Select a country" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mn">Mongolia</SelectItem>
-                        <SelectItem value="au">Australia</SelectItem>
-                        <SelectItem value="br">Brazil</SelectItem>
-                        <SelectItem value="ca">Canada</SelectItem>
-                        <SelectItem value="cn">China</SelectItem>
-                        <SelectItem value="fr">France</SelectItem>
-                        <SelectItem value="de">Germany</SelectItem>
-                        <SelectItem value="in">India</SelectItem>
-                        <SelectItem value="jp">Japan</SelectItem>
-                        <SelectItem value="uk">United Kingdom</SelectItem>
-                        <SelectItem value="us">United States</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription hidden></FormDescription>
+                <FormItem>
+                  <FormLabel>Country</FormLabel>
+                  <CountryDropdown
+                    placeholder="Country"
+                    defaultValue={field.value}
+                    onChange={(country) => {
+                      field.onChange(country.alpha3);
+                    }}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <div className="w-full flex items-start gap-3 ">
               <FormField
                 control={form.control}

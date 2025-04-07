@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Image from "next/image";
 import { uploadImage } from "@/lib/upload";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   photo: z.string().nonempty({
@@ -34,6 +35,7 @@ const formSchema = z.object({
 });
 
 export default function CreateProfile() {
+  const router = useRouter();
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   // 1. Define your form.
@@ -48,14 +50,7 @@ export default function CreateProfile() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // formData.append("user_id", localStorage.getItem("userId") || ""); // Хэрэглэгчийн ID-ийг localStorage-ээс авах
-    // formData.append("username", values.username);
-    // formData.append("about", values.about);
-    // formData.append("socialMedia", values.socialMedia);
     const imageUrl = await uploadImage(profileImageFile);
-    // if (!imageUrl) {
-    //   return
-    // }
 
     try {
       const response = await fetch("/api/users/profile", {
@@ -78,6 +73,7 @@ export default function CreateProfile() {
       } else {
         console.error("Алдаа үүслээ:", data.message);
       }
+      router.push("/paymentDetail");
     } catch (error) {
       console.error("Алдаа үүслээ:", error);
     }

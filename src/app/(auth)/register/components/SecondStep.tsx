@@ -85,7 +85,7 @@ export default function SecondStep({ username }: SecondStepProps) {
       router.push("/createprofile");
     } catch (error: unknown) {
       console.error("Registration error:", error);
-      setError(error.message || "Failed to create account. Please try again.");
+      console.error(error, "Failed to create account. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+// import axios from "axios";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -63,13 +64,18 @@ const LoginPage = () => {
         setError(data.error || "Login failed. Please try again.");
         return;
       }
-
+      // const response = await axios.post("api/users/login", { email, password });
+      // const data = response.data;
+      // if (response.status !== 200) {
+      //   setError(data.error || "Login failed. Please try again.");
+      //   return;
+      // }
       // Store user information in localStorage
       // localStorage.setItem("userName", data.user.username);
       localStorage.setItem("userId", data.user.id.toString());
 
       // Redirect to profile page
-      router.push("/");
+      router.push("/createprofile");
     } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Login error:", error);

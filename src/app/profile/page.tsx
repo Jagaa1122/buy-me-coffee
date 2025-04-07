@@ -15,30 +15,30 @@ export default function BuyMeCoffee() {
   const userName = "Jake";
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   function onLogout() {
     console.log("Logging out");
     return "";
   }
-  
+
   const handleCoverImageClick = () => {
     // Programmatically click the hidden file input
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
-  
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     // Create a URL for the selected image file
     const imageUrl = URL.createObjectURL(file);
     setCoverImage(imageUrl);
-    
+
     console.log("Image selected:", file.name);
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header userName={userName} onLogout={onLogout} />
@@ -47,14 +47,16 @@ export default function BuyMeCoffee() {
       <div className="relative w-full h-[240px] bg-gray-200 mb-[-60px] z-10">
         {coverImage && (
           <div className="absolute inset-0 w-full h-full">
-            <img 
-              src={coverImage} 
-              alt="Cover" 
+            <Image
+              width={1000}
+              height={1000}
+              src={coverImage}
+              alt="Cover"
               className="w-full h-full object-cover"
             />
           </div>
         )}
-        
+
         <div className="absolute inset-0 flex items-center justify-center">
           <Button
             variant="default"
@@ -64,7 +66,7 @@ export default function BuyMeCoffee() {
             <Camera className="mr-2 h-4 w-4" />
             {coverImage ? "Change cover image" : "Add a cover image"}
           </Button>
-          
+
           <input
             ref={fileInputRef}
             type="file"
