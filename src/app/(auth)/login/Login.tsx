@@ -71,11 +71,11 @@ const LoginPage = () => {
       //   return;
       // }
       // Store user information in localStorage
-      // localStorage.setItem("userName", data.user.username);
+      localStorage.setItem("userName", data.user.username);
       localStorage.setItem("userId", data.user.id.toString());
 
       // Redirect to profile page
-      router.push("/createprofile");
+      router.push("/");
     } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Login error:", error);

@@ -46,7 +46,7 @@ export default function PaymentDetail() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    router.push("/explore");
+    router.push("/");
   }
   return (
     <div className="flex flex-col justify-center items-center ">
@@ -79,9 +79,10 @@ export default function PaymentDetail() {
               control={form.control}
               name="country"
               render={({ field }) => (
-                <FormItem>
+                <FormItem   className="w-full">
                   <FormLabel>Country</FormLabel>
                   <CountryDropdown
+                  
                     placeholder="Country"
                     defaultValue={field.value}
                     onChange={(country) => {
@@ -156,36 +157,65 @@ export default function PaymentDetail() {
                 control={form.control}
                 name="expires"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                    <FormItem className="w-full">
                     <Label>Expires</Label>
                     <FormControl>
-                      <Input
-                        placeholder="Month"
-                        className="w-full h-[36px] "
-                        {...field}
-                      />
+                      <select
+                      className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
+                      {...field}
+                      >
+                      <option value="" disabled>
+                        Select Month
+                      </option>
+                      <option value="01">January</option>
+                      <option value="02">February</option>
+                      <option value="03">March</option>
+                      <option value="04">April</option>
+                      <option value="05">May</option>
+                      <option value="06">June</option>
+                      <option value="07">July</option>
+                      <option value="08">August</option>
+                      <option value="09">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                      </select>
                     </FormControl>
                     <FormDescription hidden></FormDescription>
                     <FormMessage />
-                  </FormItem>
+                    </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
                 name="year"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                    <FormItem className="w-full">
                     <Label>Year</Label>
                     <FormControl>
-                      <Input
-                        placeholder="Year"
-                        className="w-full h-[36px] "
-                        {...field}
-                      />
+                      <select
+                      className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
+                      {...field}
+                      >
+                      <option value="" disabled>
+                      Select Year
+                      </option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                      <option value="2028">2028</option>
+                      <option value="2029">2029</option>
+                      <option value="2030">2030</option>
+                      <option value="2031">2031</option>
+                      <option value="2032">2032</option>
+                      <option value="2033">2033</option>
+                      <option value="2034">2034</option>
+                      <option value="2035">2035</option>
+                      </select>
                     </FormControl>
                     <FormDescription hidden></FormDescription>
                     <FormMessage />
-                  </FormItem>
+                    </FormItem>
                 )}
               />
               <FormField
