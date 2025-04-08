@@ -53,24 +53,27 @@ export default function FirstStep({
     if (username.length >= 3 && hasInteracted) {
       const checkUsername = async () => {
         setIsChecking(true);
-        
+
         try {
           // Check username in the database
-          const response = await fetch(`/api/users/check-username?username=${username}`, {
-            method: "GET",
-          });
-          
+          const response = await fetch(
+            `/api/check-username?username=${username}`,
+            {
+              method: "GET",
+            }
+          );
+
           const data = await response.json();
-          checkUsernameAvailability(!data.exists);
+          checkUsernameAvailability(data.exists);
         } catch (error) {
           console.error("Error checking username:", error);
           // Default to not available on error
-          checkUsernameAvailability(false);
+          checkUsernameAvailability("");
         } finally {
           setIsChecking(false);
         }
       };
-      
+
       const timeoutId = setTimeout(checkUsername, 300);
       return () => clearTimeout(timeoutId);
     }
@@ -80,10 +83,10 @@ export default function FirstStep({
     const value = e.target.value;
     usernameForm.setValue("username", value);
     setHasInteracted(true);
-    
+
     // Reset username availability when typing
     if (value.length < 3) {
-      checkUsernameAvailability(false);
+      checkUsernameAvailability("");
     }
   };
 
@@ -104,9 +107,7 @@ export default function FirstStep({
 
       <div className="mb-8">
         <h1 className="mb-2 text-2xl font-bold">Register your account</h1>
-        <p className="text-muted-foreground">
-          Choose a username for your page
-        </p>
+        <p className="text-muted-foreground">Choose a username for your page</p>
       </div>
 
       <Form {...usernameForm}>
@@ -126,7 +127,9 @@ export default function FirstStep({
                     {...field}
                     onChange={handleUsernameChange}
                     className={`border-gray-300 ${
-                      hasInteracted && username.length >= 3 && !isUsernameAvailable
+                      hasInteracted &&
+                      username.length >= 3 &&
+                      !isUsernameAvailable
                         ? "border-red-500"
                         : ""
                     }`}
@@ -135,7 +138,9 @@ export default function FirstStep({
                 {hasInteracted && username.length >= 3 && (
                   <div className="flex items-center mt-1 text-sm">
                     {isChecking ? (
-                      <div className="text-gray-500">Checking availability...</div>
+                      <div className="text-gray-500">
+                        Checking availability...
+                      </div>
                     ) : isUsernameAvailable ? (
                       <>
                         <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center mr-2">
@@ -152,7 +157,9 @@ export default function FirstStep({
                             <polyline points="20 6 9 17 4 12"></polyline>
                           </svg>
                         </div>
-                        <span className="text-green-500">Username available</span>
+                        <span className="text-green-500">
+                          Username available
+                        </span>
                       </>
                     ) : (
                       <>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runQuery } from "../../../../../util/queryService";
+import { runQuery } from "../../../../util/queryService";
 import { UserType } from "@/lib/utils";
 
 export async function POST(req: Request): Promise<NextResponse> {

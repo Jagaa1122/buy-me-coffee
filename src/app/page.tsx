@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState({
     name: "",
-    avatarUrl: "/placeholder.svg?height=32&width=32",
+    avatarUrl: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +27,7 @@ export default function Home() {
     // Set user data if logged in
     setUser({
       name: userName,
-      avatarUrl: "/placeholder.svg?height=32&width=32",
+      avatarUrl: "",
     });
 
     setLoading(false);

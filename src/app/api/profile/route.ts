@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runQuery } from "../../../../../util/queryService"; // Assume this is a utility for running SQL queries
+import { runQuery } from "../../../../util/queryService"; // Assume this is a utility for running SQL queries
 
 export async function POST(req: Request): Promise<NextResponse> {
   try {
