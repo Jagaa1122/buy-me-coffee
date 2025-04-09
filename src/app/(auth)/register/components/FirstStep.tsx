@@ -64,6 +64,8 @@ export default function FirstStep({
           );
 
           const data = await response.json();
+
+          console.log("DATA!!!", data);
           checkUsernameAvailability(data.exists);
         } catch (error) {
           console.error("Error checking username:", error);

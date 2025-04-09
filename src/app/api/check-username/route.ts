@@ -18,9 +18,11 @@ export async function GET(req: Request): Promise<NextResponse> {
     const checkUsernameQuery = `SELECT * FROM users WHERE username = $1`;
     const result = await runQuery(checkUsernameQuery, [username]);
 
+    console.log("MY RESULT!x", result);
+
     return new NextResponse(
       JSON.stringify({
-        exists: result && result.length > 0,
+        exists: result && result.length <= 0,
       })
     );
   } catch (error) {

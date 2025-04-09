@@ -35,7 +35,7 @@ export default function Home() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <Image
-                      alt={creator?.avatarimage}
+                      alt={"https://github.com/shadcn.png"}
                       src={
                         creator?.avatarimage
                           ? creator.avatarimage
@@ -59,8 +59,8 @@ export default function Home() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-medium mb-2">About {creator.name}</h3>
-                    <p className="text-sm text-gray-700">{creator.about}</p>
+                    <h3 className="font-medium mb-2">About {creator.about}</h3>
+                    <p className="text-sm text-gray-700">{creator.name}</p>
                   </div>
                   <div>
                     <h3 className="font-medium mb-2">Social media URL</h3>

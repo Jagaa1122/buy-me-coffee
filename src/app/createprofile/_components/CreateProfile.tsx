@@ -53,15 +53,15 @@ export default function CreateProfile() {
     const imageUrl = await uploadImage(profileImageFile);
 
     try {
-      const response = await fetch("/api/users/profile", {
+      const response = await fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: values.username,
           about: values.about,
-          // user_id: localStorage.getItem("userId") || "",
           avatarImage: imageUrl,
           socialMediaURL: values.socialMedia,
+          // user_id: localStorage.getItem("userId") || "",
         }),
       });
 

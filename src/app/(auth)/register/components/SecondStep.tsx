@@ -59,7 +59,7 @@ export default function SecondStep({ username }: SecondStepProps) {
       });
 
       // Register the user with the updated API endpoint path
-      const response = await fetch("/api/users/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default function SecondStep({ username }: SecondStepProps) {
           password: data.password,
         }),
       });
-
+      console.log(response, "RESPONSE");
       const result = await response.json();
 
       if (!response.ok) {
@@ -84,7 +84,6 @@ export default function SecondStep({ username }: SecondStepProps) {
       // Redirect to profile creation page
       router.push("/createprofile");
     } catch (error: unknown) {
-      console.error("Registration error:", error);
       console.error(error, "Failed to create account. Please try again.");
     } finally {
       setIsSubmitting(false);

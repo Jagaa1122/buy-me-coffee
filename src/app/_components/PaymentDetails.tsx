@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CountryDropdown } from "@/components/ui/country-dropdown";
+import { useState } from "react";
+import { Loader } from "./Loader";
 
 const formSchema = z.object({
   country: z.string({
@@ -24,30 +26,64 @@ const formSchema = z.object({
   }),
   firstName: z.string().nonempty("Please enter your first name"),
   lastName: z.string().nonempty("Please enter your last name"),
-  about: z.string().nonempty("Please enter your card number"),
+  cardnumber: z.string().nonempty("Please enter your card number"),
   expires: z.string().nonempty("Please enter month"),
   year: z.string().nonempty("Please enter year"),
   cvc: z.string().nonempty("Please enter your cvc"),
 });
 export default function PaymentDetail() {
   const router = useRouter();
+  const [isReady, setIsReady] = useState(true);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       country: "",
       firstName: "",
       lastName: "",
-      about: "",
+      cardnumber: "",
       expires: "",
       year: "",
       cvc: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    router.push("/");
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsReady(false);
+    try {
+      const response = await fetch("/api/bankcard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          country: values.country,
+          firstname: values.firstName,
+          lastname: values.lastName,
+          cardnumber: values.cardnumber,
+          expirydate: values.expires,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Профайл амжилттай үүслээ:", data);
+        // Амжилттай бол хэрэглэгчийг шилжүүлэх эсвэл UI-ийг шинэчлэх
+      } else {
+        console.error("Алдаа үүслээ:", data.message);
+      }
+    } catch (error) {
+      console.error("Алдаа үүслээ:", error);
+    } finally {
+      setIsReady(true);
+      router.push("/explore");
+    }
   }
+  if (!isReady)
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        <Loader />
+      </div>
+    );
+
   return (
     <div className="flex flex-col justify-center items-center ">
       <div className="flex justify-between px-[80px] py-2.5 bg-amber-200 items-center w-screen mb-8 ]">
@@ -79,10 +115,9 @@ export default function PaymentDetail() {
               control={form.control}
               name="country"
               render={({ field }) => (
-                <FormItem   className="w-full">
+                <FormItem className="w-full">
                   <FormLabel>Country</FormLabel>
                   <CountryDropdown
-                  
                     placeholder="Country"
                     defaultValue={field.value}
                     onChange={(country) => {
@@ -135,7 +170,7 @@ export default function PaymentDetail() {
 
             <FormField
               control={form.control}
-              name="about"
+              name="cardnumber"
               render={({ field }) => (
                 <FormItem className="w-full h-[62px] flex flex-col items-start gap-2 ">
                   <Label>Enter card number</Label>
@@ -157,65 +192,65 @@ export default function PaymentDetail() {
                 control={form.control}
                 name="expires"
                 render={({ field }) => (
-                    <FormItem className="w-full">
+                  <FormItem className="w-full">
                     <Label>Expires</Label>
                     <FormControl>
                       <select
-                      className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
-                      {...field}
+                        className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
+                        {...field}
                       >
-                      <option value="" disabled>
-                        Select Month
-                      </option>
-                      <option value="01">January</option>
-                      <option value="02">February</option>
-                      <option value="03">March</option>
-                      <option value="04">April</option>
-                      <option value="05">May</option>
-                      <option value="06">June</option>
-                      <option value="07">July</option>
-                      <option value="08">August</option>
-                      <option value="09">September</option>
-                      <option value="10">October</option>
-                      <option value="11">November</option>
-                      <option value="12">December</option>
+                        <option value="" disabled>
+                          Select Month
+                        </option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                       </select>
                     </FormControl>
                     <FormDescription hidden></FormDescription>
                     <FormMessage />
-                    </FormItem>
+                  </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
                 name="year"
                 render={({ field }) => (
-                    <FormItem className="w-full">
+                  <FormItem className="w-full">
                     <Label>Year</Label>
                     <FormControl>
                       <select
-                      className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
-                      {...field}
+                        className="w-full h-[36px] border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring rounded-md"
+                        {...field}
                       >
-                      <option value="" disabled>
-                      Select Year
-                      </option>
-                      <option value="2025">2025</option>
-                      <option value="2026">2026</option>
-                      <option value="2027">2027</option>
-                      <option value="2028">2028</option>
-                      <option value="2029">2029</option>
-                      <option value="2030">2030</option>
-                      <option value="2031">2031</option>
-                      <option value="2032">2032</option>
-                      <option value="2033">2033</option>
-                      <option value="2034">2034</option>
-                      <option value="2035">2035</option>
+                        <option value="" disabled>
+                          Select Year
+                        </option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
                       </select>
                     </FormControl>
                     <FormDescription hidden></FormDescription>
                     <FormMessage />
-                    </FormItem>
+                  </FormItem>
                 )}
               />
               <FormField
