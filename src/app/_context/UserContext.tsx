@@ -40,7 +40,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.log("error", error);
-      // alert("error in getting users");
     }
   };
 

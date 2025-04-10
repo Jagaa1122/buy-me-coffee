@@ -11,7 +11,7 @@ export const SideBar = () => {
   const links = [
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore" },
-    { href: "/view-page", label: "View page", icon: <ExternalLink /> },
+    { href: "/profile", label: "View page", icon: <ExternalLink /> },
     { href: "/acc-settings", label: "Account settings" },
   ];
   return (
