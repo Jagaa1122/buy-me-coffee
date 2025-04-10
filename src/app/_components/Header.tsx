@@ -27,14 +27,14 @@ export default function Header({ userName, avatarUrl }: HeaderProps) {
     localStorage.removeItem("userName");
     localStorage.removeItem("userId");
     
-    // Close dropdown
+   
     setIsOpen(false);
     
-    // Redirect to login page
+   
     router.push("/login");
   };
 
-  // Get the first letter of the username for the avatar fallback
+  
   const userInitial = userName?.charAt(0) || "U";
 
   return (

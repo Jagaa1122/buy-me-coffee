@@ -49,35 +49,44 @@ export default function CreateProfile() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+async function onSubmit(values: z.infer<typeof formSchema>) {
+  try {
     const imageUrl = await uploadImage(profileImageFile);
-
-    try {
-      const response = await fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: values.username,
-          about: values.about,
-          avatarImage: imageUrl,
-          socialMediaURL: values.socialMedia,
-          // user_id: localStorage.getItem("userId") || "",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Профайл амжилттай үүслээ:", data);
-        // Амжилттай бол хэрэглэгчийг шилжүүлэх эсвэл UI-ийг шинэчлэх
-      } else {
-        console.error("Алдаа үүслээ:", data.message);
-      }
-      router.push("/paymentDetail");
-    } catch (error) {
-      console.error("Алдаа үүслээ:", error);
+    const userId = localStorage.getItem("userId");
+    
+    if (!userId) {
+      console.error("User ID not found in localStorage");
+      router.push("/login");
+      return;
     }
+    
+    console.log("Creating profile for user ID:", userId);
+    
+    const response = await fetch("/api/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: values.username,
+        about: values.about,
+        avatarImage: imageUrl || "", 
+        socialMediaURL: values.socialMedia || "",
+        user_id: parseInt(userId)  
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Profile created successfully:", data);
+      router.push("/paymentDetail");
+    } else {
+      console.error("Error creating profile:", data);
+
+    }
+  } catch (error) {
+    console.error("Error in profile creation:", error);
   }
+}
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;

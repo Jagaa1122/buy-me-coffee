@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Search, ExternalLink } from "lucide-react";
 import { useUser } from "@/app/_context/UserContext";
 import { profileType } from "../../../../util/types";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const { users } = useUser()!;
   console.log(users, "jagaagiin profile ireh ystoi");
@@ -51,6 +53,7 @@ export default function Home() {
                     variant="outline"
                     size="sm"
                     className="flex items-center gap-1.5"
+                    onClick={() => router.push(`/profile/${creator.id}`)}
                   >
                     <span>View profile</span>
                     <ExternalLink className="h-4 w-4" />
@@ -64,8 +67,8 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-2">Social media URL</h3>
-                    <a
-                      href={creator.socialmediaurl}
+                    
+                      <a href={creator.socialmediaurl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-blue-600 hover:underline break-all"

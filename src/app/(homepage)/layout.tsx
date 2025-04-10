@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SideBar } from "../_components/SideBar";
 import Header from "../_components/Header";
 import { useRouter } from "next/navigation";
+import { Loader } from "@/app/_components/Loader";
 
 export default function AuthLeftBar({
   children,
@@ -36,7 +37,11 @@ export default function AuthLeftBar({
   }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+     return (
+          <div className="flex items-center justify-center w-screen h-screen">
+            <Loader />
+          </div>
+        );
   }
   return (
     <main className="w-full  ">

@@ -74,7 +74,7 @@ export default function PaymentDetail() {
       console.error("Алдаа үүслээ:", error);
     } finally {
       setIsReady(true);
-      router.push("/explore");
+      router.push("/");
     }
   }
   if (!isReady)

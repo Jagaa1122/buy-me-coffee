@@ -80,6 +80,7 @@ export default function SecondStep({ username }: SecondStepProps) {
 
       // Store user info
       localStorage.setItem("userName", username);
+      localStorage.setItem("userId", result.user.id.toString());  // Add this line
 
       // Redirect to profile creation page
       router.push("/createprofile");

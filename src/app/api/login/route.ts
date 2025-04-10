@@ -31,7 +31,8 @@ export async function POST(req: Request): Promise<NextResponse> {
       });
     }
 
-    const { ...userWithoutPassword } = user;
+    // We want to include profileId in the response
+    const { password: _, ...userWithoutPassword } = user;
 
     return new NextResponse(
       JSON.stringify({
